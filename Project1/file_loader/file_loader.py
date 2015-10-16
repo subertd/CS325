@@ -1,27 +1,8 @@
-import json
 import csv
 import StringIO
 
-__author__ = 'Don'
 
-
-def load_list_from_json_file(file_path):
-
-    list_file = open(file_path, 'r')
-
-    json_list = ''
-
-    for line in list_file:
-        json_list += line
-
-    list_file.close()
-
-    unsorted_list = json.loads(json_list)
-
-    return unsorted_list
-
-
-def load_list_from_csv(file_path):
+def load_lists_from_file(file_path):
 
     list_file = open(file_path, 'r')
 
@@ -40,10 +21,7 @@ def load_list_from_csv(file_path):
         cur_list = []
 
         csv_reader = csv.reader(StringIO.StringIO(csv_string), delimiter=',', quotechar='|')
-        #while csv_reader.next():
-         #   print csv_reader[0]
         for row in csv_reader:
-            #cur_list.append((list(row), row[0]))
             for element in row:
                 try:
                     num_format_element = int(element)
@@ -53,6 +31,7 @@ def load_list_from_csv(file_path):
                 finally:
                     pass
 
-        list_of_lists.append(cur_list)
+        if len(cur_list) > 0:
+            list_of_lists.append(cur_list)
 
     return list_of_lists
