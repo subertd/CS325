@@ -1,5 +1,7 @@
 from algorithm1.algorithm1 import enumeration
 from algorithm2.algorithm2 import better_enumeration
+from algorithm3.algorithm3 import divide_and_conquer
+
 
 __author__ = 'Don'
 
@@ -13,3 +15,4 @@ test = load_list_from_csv('Problems/MSS_TestProblems-1.txt')
 for list in test:
     print enumeration(list)
     print better_enumeration(list)
+    print divide_and_conquer(list)
