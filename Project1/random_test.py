@@ -11,10 +11,10 @@ class RandomTest(unittest.TestCase):
 
     random_list_gen = RandomListGen()
 
-    random_runs = 100
+    random_runs = 1000
 
     min_len = 1
-    max_len = 10
+    max_len = 100
 
     def test_random(self):
 
@@ -40,6 +40,9 @@ class RandomTest(unittest.TestCase):
         for failure in failures:
             (failed_list, failed_a1, failed_a2, failed_a3, failed_a4) = failure
             message += message_template % (failed_list, failed_a1, failed_a2, failed_a3, failed_a4)
+
+
+        message += "%d runs, %d failures\n\n" % (self.random_runs, len(failures))
 
         self.assertTrue(len(failures) == 0, message)
 

@@ -1,6 +1,6 @@
 def divide_and_conquer(array_list):
     (p, r, sum) = recursive_mms(array_list, 0, len(array_list))
-    return (p, r, sum)
+    return (p, r + 1, sum)
 
 def recursive_mms(array_list, p, r):
 
