@@ -1,11 +1,6 @@
 from algorithm1.algorithm1 import enumeration
 from algorithm2.algorithm2 import better_enumeration
 from algorithm3.algorithm3 import divide_and_conquer
-
-
-__author__ = 'Don'
-
-
 from file_loader.file_loader import load_list_from_csv
 
 

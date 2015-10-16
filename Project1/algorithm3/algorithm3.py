@@ -34,12 +34,12 @@ def max_crossing_subarray(array_list, p, q, r):
 
         current_sum = sum(array_list[i:q])
 
-        if max_left == None:
+        if left_sum == None:
             max_left = i
             left_sum = current_sum
 
         else:
-            if current_sum > max_left:
+            if current_sum > left_sum:
                 max_left = i
                 left_sum = current_sum
 
@@ -48,14 +48,14 @@ def max_crossing_subarray(array_list, p, q, r):
 
     for i in range(q, r):
 
-        current_sum = sum(array_list[q:i])
+        current_sum = sum(array_list[q:i + 1])
 
-        if max_right == None:
+        if right_sum == None:
             max_right = i
             right_sum = current_sum
 
         else:
-            if current_sum > max_right:
+            if current_sum > right_sum:
                 max_right = i
                 right_sum = current_sum
 
