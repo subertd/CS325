@@ -3,9 +3,9 @@ from algorithm2.algorithm2 import better_enumeration
 import unittest
 
 
-class Algorithm1Test(unittest.TestCase):
+class Algorithm2Test(unittest.TestCase):
 
-    def test_algorithm1_providedInput_shouldReturnMatchProvidedOutput(self):
+    def test_algorithm2_providedInput_shouldReturnMatchProvidedOutput(self):
         test_lists = load_lists_from_file('Problems/MSS_TestProblems-1.txt')
         expected = [(3, 14, 34), (0, 5, 30), (6, 12, 50), (2, 7, 187), (0, 4, 7), (0, 3, 210), (3, 7, 6)]
         actual = []

@@ -10,13 +10,14 @@ lists = load_lists_from_file('Problems/MSS_Problems.txt')
 
 out = FileWriter('Output/MSS_Results.txt')
 
-for list in lists:
-    algorithm1_output = enumeration(list)
-    algorithm2_output = better_enumeration(list)
-    algorithm3_output = divide_and_conquer(list)
-    algorithm4_output = dynamic_programming(list)
+for array_list in lists:
 
-    out.write_line(list)
+    algorithm1_output = enumeration(array_list)
+    algorithm2_output = better_enumeration(array_list)
+    algorithm3_output = divide_and_conquer(array_list)
+    algorithm4_output = dynamic_programming(array_list)
+
+    out.write_line(array_list)
     out.write_line('enumeration: ')
     out.write_line(algorithm1_output)
     out.write_line('better enumeration: ')

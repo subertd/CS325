@@ -1,6 +1,7 @@
 def divide_and_conquer(array_list):
-    (p, r, sum) = recursive_mms(array_list, 0, len(array_list))
-    return (p, r + 1, sum)
+    (p, r, max_sum) = recursive_mms(array_list, 0, len(array_list))
+    return p, r, max_sum
+
 
 def recursive_mms(array_list, p, r):
 
@@ -49,12 +50,12 @@ def max_crossing_subarray(array_list, p, q, r):
         current_sum = sum(array_list[q:i + 1])
 
         if right_sum == None:
-            max_right = i
+            max_right = i + 1
             right_sum = current_sum
 
         else:
             if current_sum > right_sum:
-                max_right = i
+                max_right = i + 1
                 right_sum = current_sum
 
     return [max_left, max_right, left_sum + right_sum]

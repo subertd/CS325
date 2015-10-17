@@ -3,9 +3,9 @@ from algorithm4.algorithm4 import dynamic_programming
 import unittest
 
 
-class Algorithm3Test(unittest.TestCase):
+class Algorithm4Test(unittest.TestCase):
 
-    def test_algorithm1_providedInput_shouldReturnMatchProvidedOutput(self):
+    def test_algorithm4_providedInput_shouldReturnMatchProvidedOutput(self):
         test_lists = load_lists_from_file('Problems/MSS_TestProblems-1.txt')
         expected = [(3, 14, 34), (0, 5, 30), (6, 12, 50), (2, 7, 187), (0, 4, 7), (0, 3, 210), (3, 7, 6)]
         actual = []

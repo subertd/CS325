@@ -27,8 +27,8 @@ class RandomTest(unittest.TestCase):
 
             a1_out = enumeration(random_list)
             a2_out = better_enumeration(random_list)
-            #a3_out = divide_and_conquer(random_list)
-            a3_out = a2_out
+            a3_out = divide_and_conquer(random_list)
+            # a3_out = a2_out
             a4_out = dynamic_programming(random_list)
 
             if a1_out != a2_out or a1_out != a3_out or a1_out != a4_out:
