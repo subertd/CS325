@@ -8,7 +8,7 @@ from file_writer.file_writer import FileWriter
 
 lists = load_lists_from_file('Problems/MSS_Problems.txt')
 
-out = FileWriter()
+out = FileWriter('Output/MSS_Results.txt')
 
 for list in lists:
     algorithm1_output = enumeration(list)
@@ -16,7 +16,7 @@ for list in lists:
     algorithm3_output = divide_and_conquer(list)
     algorithm4_output = dynamic_programming(list)
 
-    out.write_line(list);
+    out.write_line(list)
     out.write_line('enumeration: ')
     out.write_line(algorithm1_output)
     out.write_line('better enumeration: ')
@@ -26,3 +26,5 @@ for list in lists:
     out.write_line('dynamic programming: ')
     out.write_line(algorithm4_output)
     out.write_line('\n')
+
+out.close()

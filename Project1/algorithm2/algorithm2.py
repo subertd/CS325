@@ -19,7 +19,7 @@ def better_enumeration(array_list):
                 max_r = j + 1
 
             else:
-                if sub_sum > max_sum:
+                if sub_sum >= max_sum:
                     max_sum = sub_sum
                     max_p = i
                     max_r = j + 1

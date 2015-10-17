@@ -11,7 +11,7 @@ class RandomTest(unittest.TestCase):
 
     random_list_gen = RandomListGen()
 
-    random_runs = 1000
+    random_runs = 100
 
     min_len = 1
     max_len = 100
@@ -27,9 +27,9 @@ class RandomTest(unittest.TestCase):
 
             a1_out = enumeration(random_list)
             a2_out = better_enumeration(random_list)
-            a3_out = divide_and_conquer(random_list)
-            a4_out = a1_out
-            # a4_out = dynamic_programming(random_list)
+            #a3_out = divide_and_conquer(random_list)
+            a3_out = a2_out
+            a4_out = dynamic_programming(random_list)
 
             if a1_out != a2_out or a1_out != a3_out or a1_out != a4_out:
                 failures.append((random_list, a1_out, a2_out, a3_out, a4_out))
@@ -40,7 +40,6 @@ class RandomTest(unittest.TestCase):
         for failure in failures:
             (failed_list, failed_a1, failed_a2, failed_a3, failed_a4) = failure
             message += message_template % (failed_list, failed_a1, failed_a2, failed_a3, failed_a4)
-
 
         message += "%d runs, %d failures\n\n" % (self.random_runs, len(failures))
 
