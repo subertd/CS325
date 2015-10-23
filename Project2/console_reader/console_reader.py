@@ -4,9 +4,9 @@ class ConsoleReader:
 
         user_input_file_name = ""
 
-        prompt = "What file would you like me to inspect for you, Dave?\n"
+        prompt = "Name of file to open: "
 
         while len(user_input_file_name) == 0:
-            raw_input(prompt)
+            user_input_file_name = raw_input(prompt)
 
         return user_input_file_name

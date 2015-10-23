@@ -15,6 +15,6 @@ fileWriter = FileWriter(file_name + "change.txt")
 for i in data:
     V, A = i
     result = changedp(V, A)
-    fileWriter.write_result(result)
+    fileWriter.write_line(result)
 
 fileWriter.close()

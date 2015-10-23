@@ -22,7 +22,9 @@ class FileWriter:
         sys.stdout.flush()
 
     def write_line(self, output):
-        self.write(str(output))
+        self.write(str(output[0]))
+        self.write('\n')
+        self.write(str(output[1]))
         self.write('\n')
         self.flush()
 
