@@ -27,8 +27,7 @@ class AlgorithmTest(unittest.TestCase):
         expected = expected_all[0]
         actual = changeslow(V, A)
         self.assertEqual(expected, actual)
-        
-        
+
     def test_changegreedy_set1(self):
         V, A, expected_all = self.test_set_1
         expected = expected_all[1]
