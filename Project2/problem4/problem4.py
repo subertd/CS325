@@ -18,23 +18,37 @@ class Problem4:
 
         V = [1, 5, 10, 25, 50]
         A_list = range(2010, 2205, 5)
-        self.totals_out.write_line(V)
 
-        self.totals_out.write_line(" , CHANGEGREEDY, CHANGEDP,")
-        self.time_out.write_line(" , CHANGEGREEDY, CHANGEDP,")
+        self.time_out.write_line("Problem 4")
+
+        A_list_string = ("%s" % A_list)[1:-1]
+        self.totals_out.write_line(" , " + A_list_string + ",")
+        self.time_out.write_line(" , " + A_list_string + ",")
+
+        self.totals_out.write("CHANGEGREEDY, ")
+        self.time_out.write("CHANGEGREEDY, ")
 
         for A in A_list:
             start_greedy = time.clock()
             (denominations_greedy, total_greedy) = changegreedy(V, A)
             duration_greedy = time.clock() - start_greedy
+            self.totals_out.write("%d, " % total_greedy)
+            self.time_out.write("%f, " % duration_greedy)
+
+        self.totals_out.write_line("")
+        self.time_out.write_line("")
+
+        self.totals_out.write("CHANGEDP, ")
+        self.time_out.write("CHANGEDP, ")
+
+        for A in A_list:
             start_dp = time.clock()
             (denominations_dp, total_dp) = changedp(V, A)
             duration_dp = time.clock() - start_dp
+            self.totals_out.write("%d, " % total_dp)
+            self.time_out.write("%f, " % duration_dp)
 
-            self.totals_out.write_line("%d, %d, %d," % (A, total_greedy, total_dp))
-            self.time_out.write_line("%d, %f, %f," % (A, duration_greedy, duration_dp))
-
-        self.totals_out.write_line("__end Results")
-        self.time_out.write_line("__end Results")
+        self.totals_out.write_line("")
+        self.time_out.write_line("")
 
         self.totals_out.close()
