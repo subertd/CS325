@@ -13,20 +13,19 @@ class FileWriter:
             self.output_file.close()
 
     def write(self, output):
-        self.output_file.write(output)
-        sys.stdout.write(output)
-        sys.stdout.flush()
-
-    def flush(self):
-        self.output_file.flush()
+        self.output_file.write(str(output))
+        sys.stdout.write(str(output))
         sys.stdout.flush()
 
     def write_line(self, output):
+        self.write(str(output))
+        self.write('\n')
+
+    def write_result(self, output):
         self.write(str(output[0]))
         self.write('\n')
         self.write(str(output[1]))
         self.write('\n')
-        self.flush()
 
     def close(self):
         self.output_file.close()
