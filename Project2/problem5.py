@@ -1,30 +1,58 @@
 from algorithm2.algorithm2 import changegreedy
 from algorithm3.algorithm3 import changedp
 from file_writer.file_writer import FileWriter
+import time
 
 
-out = FileWriter("Problem5Output.csv")
+class Problem5:
 
-V1 = [1, 2, 6, 12, 24, 48, 60]
-V2 = [1, 6, 13, 37, 150]
-A_list = range(2000, 2201, 1)
+    def _init__(self, time_out):
+        self.time_out = time_out
 
-out.write_line(" , %s, %s" % (V1, V2))
+    totals_out = FileWriter("Problem5Output.csv")
 
-out.write_line("CHANGEGREEDY")
-for A in A_list:
-    out.write("%d, " % A)
-    (denominations, total) = changegreedy(V1, A)
-    out.write("%d, " % total)
-    (denominations, total) = changegreedy(V2, A)
-    out.write_line("%d, " % total)
+    def _delete__(self):
+        self.totals_out.close()
 
-out.write_line("CHANGEDP")
-for A in A_list:
-    out.write("%d, " % A)
-    (denominations, total) = changedp(V1, A)
-    out.write("%d, " % total)
-    (denominations, total) = changedp(V2, A)
-    out.write_line("%d, " % total)
+    def run(self):
 
-out.close()
+        V1 = [1, 2, 6, 12, 24, 48, 60]
+        V2 = [1, 6, 13, 37, 150]
+        A_list = range(2000, 2201, 1)
+        self.totals_out.write_line(V1)
+
+        self.totals_out.write_line(", CHANGEGREEDY, CHANGEDP,")
+        self.time_out.write_line(" , CHANGEGREEDY, CHANGEDP,")
+
+        self.totals_out.write_line("V1")
+        self.time_out.write_line("V1")
+
+        for A in A_list:
+            start_greedy = time.clock()
+            (denominations_greedy, total_greedy) = changegreedy(V1, A)
+            duration_greedy = time.clock() - start_greedy
+            start_dp = time.clock()
+            (denominations_dp, total_dp) = changedp(V1, A)
+            duration_dp = time.clock() - start_dp
+
+            self.totals_out.write_line("%d, %d, %d," % (A, total_greedy, total_dp))
+            self.time_out.write_line("%d, %d, %d," % (A, duration_greedy, duration_dp))
+
+        self.totals_out.write_line("V2")
+        self.time_out.write_line("V2")
+
+        for A in A_list:
+            start_greedy = time.clock()
+            (denominations_greedy, total_greedy) = changegreedy(V2, A)
+            duration_greedy = time.clock() - start_greedy
+            start_dp = time.clock()
+            (denominations_dp, total_dp) = changedp(V2, A)
+            duration_dp = time.clock() - start_dp
+
+            self.totals_out.write_line("%d, %d, %d," % (A, total_greedy, total_dp))
+            self.time_out.write_line("%d, %d, %d," % (A, duration_greedy, duration_dp))
+
+        self.totals_out.write_line("__end Results")
+        self.time_out.write_line("__end Results")
+
+        self.totals_out.close()
