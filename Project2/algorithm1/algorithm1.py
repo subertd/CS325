@@ -33,9 +33,6 @@ def min_coins(possibilities):
     min_so_far = float("inf")
     min_so_far_index = None
 
-    if (possibilities == []):
-        print("TEST TEST TEST")
-
     for i in range(0, len(possibilities)):
         cur_denominations, cur_total = possibilities[i]
         if cur_total < min_so_far:
