@@ -14,8 +14,9 @@ class FileWriter:
 
     def write(self, output):
         self.output_file.write(str(output))
-        sys.stdout.write(str(output))
-        sys.stdout.flush()
+        self.output_file.flush()
+        # sys.stdout.write(str(output))
+        # sys.stdout.flush()
 
     def write_line(self, output):
         self.write(str(output))

@@ -32,7 +32,7 @@ class Problem4:
             duration_dp = time.clock() - start_dp
 
             self.totals_out.write_line("%d, %d, %d," % (A, total_greedy, total_dp))
-            self.time_out.write_line("%d, %d, %d," % (A, duration_greedy, duration_dp))
+            self.time_out.write_line("%d, %f, %f," % (A, duration_greedy, duration_dp))
 
         self.totals_out.write_line("__end Results")
         self.time_out.write_line("__end Results")

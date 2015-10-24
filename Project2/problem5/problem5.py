@@ -6,7 +6,7 @@ import time
 
 class Problem5:
 
-    def _init__(self, time_out):
+    def __init__(self, time_out):
         self.time_out = time_out
 
     totals_out = FileWriter("Problem5Output.csv")
@@ -36,7 +36,7 @@ class Problem5:
             duration_dp = time.clock() - start_dp
 
             self.totals_out.write_line("%d, %d, %d," % (A, total_greedy, total_dp))
-            self.time_out.write_line("%d, %d, %d," % (A, duration_greedy, duration_dp))
+            self.time_out.write_line("%d, %f, %f," % (A, duration_greedy, duration_dp))
 
         self.totals_out.write_line("V2")
         self.time_out.write_line("V2")
@@ -50,7 +50,7 @@ class Problem5:
             duration_dp = time.clock() - start_dp
 
             self.totals_out.write_line("%d, %d, %d," % (A, total_greedy, total_dp))
-            self.time_out.write_line("%d, %d, %d," % (A, duration_greedy, duration_dp))
+            self.time_out.write_line("%d, %f, %f," % (A, duration_greedy, duration_dp))
 
         self.totals_out.write_line("__end Results")
         self.time_out.write_line("__end Results")

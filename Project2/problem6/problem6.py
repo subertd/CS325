@@ -6,7 +6,7 @@ import time
 
 class Problem6:
 
-    def __init(self, time_out):
+    def __init__(self, time_out):
         self.time_out = time_out
 
     totals_out = FileWriter("Problem6Output.csv")
