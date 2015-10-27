@@ -1,3 +1,4 @@
+from algorithm1.algorithm1 import changeslow
 from algorithm2.algorithm2 import changegreedy
 from algorithm3.algorithm3 import changedp
 from file_writer.file_writer import FileWriter
