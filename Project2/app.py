@@ -17,6 +17,10 @@ fileWriter = FileWriter(file_name + "change.txt")
 for i in data:
     V, A = i
 
+    fileWriter.write_line("for problem:")
+    fileWriter.write_result((V, A))
+    fileWriter.write_line("results are: \n")
+
     result = changeslow(V, A)
     fileWriter.write("changeslow:\n")
     fileWriter.write_result(result)
@@ -28,5 +32,7 @@ for i in data:
     result = changedp(V, A)
     fileWriter.write("changedp:\n")
     fileWriter.write_result(result)
+
+    fileWriter.write_line("----------------------")
 
 fileWriter.close()
