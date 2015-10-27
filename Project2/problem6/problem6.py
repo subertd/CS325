@@ -1,3 +1,4 @@
+from algorithm1.algorithm1 import changeslow
 from algorithm2.algorithm2 import changegreedy
 from algorithm3.algorithm3 import changedp
 from file_writer.file_writer import FileWriter
@@ -24,6 +25,19 @@ class Problem6:
         A_list_string = ("%s" % A_list)[1:-1]
         self.totals_out.write_line(" , " + A_list_string + ",")
         self.time_out.write_line(" , " + A_list_string + ",")
+
+        self.totals_out.write("CHANGESLOW, ")
+        self.time_out.write("CHANGESLOW, ")
+
+        for A in A_list:
+            start_slow = time.clock()
+            (denominations_slow, total_slow) = changeslow(V, A - 1999)
+            duration_slow = time.clock() - start_slow
+            self.totals_out.write("%d, " % total_slow)
+            self.time_out.write("%f, " % duration_slow)
+
+        self.totals_out.write_line("")
+        self.time_out.write_line("")
 
         self.totals_out.write("CHANGEGREEDY, ")
         self.time_out.write("CHANGEGREEDY, ")
