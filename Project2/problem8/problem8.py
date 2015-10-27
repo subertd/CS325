@@ -16,7 +16,7 @@ class Problem8:
     def run(self):
 
         slow_modifier = 3
-        greedy_modifier = 10000
+        greedy_modifier = 100000
         dp_modifier = 100
 
         # V_slow = [1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]
