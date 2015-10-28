@@ -21,9 +21,12 @@ for i in data:
     fileWriter.write_result((V, A))
     fileWriter.write_line("results are: \n")
 
-    result = changeslow(V, A)
-    fileWriter.write("changeslow:\n")
-    fileWriter.write_result(result)
+    if A < 25:
+        result = changeslow(V, A)
+        fileWriter.write("changeslow:\n")
+        fileWriter.write_result(result)
+    else:
+        fileWriter.write_line("changeslow cannot run on problems of size %d in a timely manner" % A)
 
     result = changegreedy(V, A)
     fileWriter.write("changegreedy:\n")
