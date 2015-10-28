@@ -15,23 +15,28 @@ class Problem8:
 
     def run(self):
 
-        slow_modifier = 1
-        greedy_modifier = 10000
-        dp_modifier = 1000
+        slow_modifier = 3
+        greedy_modifier = 100000
+        dp_modifier = 100
 
         # V_slow = [1, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 24, 26, 28, 30]
         V_slow = []
         V_greedy = []
         V_dp = []
 
-        for i in range(10, 110, 10):
+        self.time_out.write(", ")
+
+        for i in range(10, 510, 10):
+            self.time_out.write("%d, " % i)
             V_slow.append(self.get_V_of_length_for_modifier(i, slow_modifier))
             V_greedy.append(self.get_V_of_length_for_modifier(i, greedy_modifier))
             V_dp.append(self.get_V_of_length_for_modifier(i, dp_modifier))
 
+        self.time_out.write_line("")
+
         A_slow = 10 * slow_modifier
         A_greedy = 10 * greedy_modifier
-        A_dp = 10000 * dp_modifier
+        A_dp = 10 * dp_modifier
 
         self.time_out.write("CHANGESLOW, ")
 
@@ -63,6 +68,14 @@ class Problem8:
 
     def get_V_of_length_for_modifier(self, length, modifier):
 
-        return range(1, modifier * (length + 1), modifier)
+        V = [1]
+
+        for i in range(1, length):
+            V.append(V[i - 1] + i * modifier)
+
+        return V
+        #return range(1, modifier * (length + 1), modifier)
 
         # return []
+
+Problem8().run()
