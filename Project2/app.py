@@ -21,7 +21,7 @@ for i in data:
     fileWriter.write_result((V, A))
     fileWriter.write_line("results are: \n")
 
-    if A < 25:
+    if A <= 30:
         result = changeslow(V, A)
         fileWriter.write("changeslow:\n")
         fileWriter.write_result(result)

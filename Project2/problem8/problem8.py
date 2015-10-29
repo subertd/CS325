@@ -74,8 +74,3 @@ class Problem8:
             V.append(V[i - 1] + i * modifier)
 
         return V
-        #return range(1, modifier * (length + 1), modifier)
-
-        # return []
-
-Problem8().run()
