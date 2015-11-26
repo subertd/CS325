@@ -5,7 +5,7 @@ import random
 from io.file_reader import FileReader
 
 
-class MyTestCase(unittest.TestCase):
+class FileReaderTest(unittest.TestCase):
     TEST_FILE_PATH = 'foo'
 
     def test_errorsIfPassedNullParameter(self):
