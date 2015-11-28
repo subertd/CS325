@@ -1,5 +1,6 @@
 import unittest
-from io.graph_parser import GraphParser
+
+from distance_calculator.distance_calculator import get_distance
 
 
 class GraphParserTest(unittest.TestCase):
@@ -9,7 +10,7 @@ class GraphParserTest(unittest.TestCase):
     expected = [3, 6, 6]
 
     def test_TheSameTwoPointsHaveDistance0Between(self):
-        actual = GraphParser().get_distance(self.v1[0], self.v1[0])
+        actual = get_distance(self.v1[0], self.v1[0])
         self.assertEqual(0, actual)
 
     def test_APointAndAnother200PlusYHasDistance200(self):
@@ -18,7 +19,7 @@ class GraphParserTest(unittest.TestCase):
         test_point = (v2x, v2y + 200)
 
         expected = 200
-        actual = GraphParser().get_distance(v1, test_point)
+        actual = get_distance(v1, test_point)
 
         self.assertEqual(expected, actual)
 
@@ -28,7 +29,7 @@ class GraphParserTest(unittest.TestCase):
         test_point = (v2x, v2y - 200)
 
         expected = 200
-        actual = GraphParser().get_distance(v1, test_point)
+        actual = get_distance(v1, test_point)
 
         self.assertEqual(expected, actual)
 
@@ -38,7 +39,7 @@ class GraphParserTest(unittest.TestCase):
         test_point = (v2x + 200, v2y)
 
         expected = 200
-        actual = GraphParser().get_distance(v1, test_point)
+        actual = get_distance(v1, test_point)
 
         self.assertEqual(expected, actual)
 
@@ -48,14 +49,14 @@ class GraphParserTest(unittest.TestCase):
         test_point = (v2x - 200, v2y)
 
         expected = 200
-        actual = GraphParser().get_distance(v1, test_point)
+        actual = get_distance(v1, test_point)
 
         self.assertEqual(expected, actual)
 
     def test_theDistanceBetween2PointsIsTheRoundedRouteOfTheSumOfSquaresOfTheDifferenceBetweenXAndY(self):
 
         for i in range(len(self.expected)):
-            actual = GraphParser().get_distance(self.v1[i], self.v2[i])
+            actual = get_distance(self.v1[i], self.v2[i])
             self.assertEqual(self.expected[i], actual)
 
 

@@ -1,7 +1,7 @@
 from io.cmd_ln_reader import CmdLnReader
 from io.file_reader import FileReader
 from io.file_writer import FileWriter
-from io.graph_parser import GraphParser
+from distance_calculator.distance_calculator import GraphParser
 from algorithm.collective_algorithm import TSPWithDP
 
 graph_parser = GraphParser()
