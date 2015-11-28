@@ -1,7 +1,7 @@
 from algorithm.tsp_algorithm import TSPAlgorithm
 
 
-class TSPWithDP(TSPAlgorithm):
+class RealTSPAlgorithm(TSPAlgorithm):
     def __init__(self):
         TSPAlgorithm.__init__(self)
 

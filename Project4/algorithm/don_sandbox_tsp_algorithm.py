@@ -1,7 +1,7 @@
 from algorithm.tsp_algorithm import TSPAlgorithm
 
 
-class TSPWGreedy(TSPAlgorithm):
+class DonsSandboxTSPAlgorithm(TSPAlgorithm):
     def __init__(self):
         TSPAlgorithm.__init__(self)
 
