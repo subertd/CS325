@@ -4,8 +4,10 @@ class FileWriter:
 
     FILE_FORMAT = "%s.tour"
 
+    file = None
+
     def __init__(self, path):
-        open(self.FILE_FORMAT % path, 'w')
+        self.file = open(self.FILE_FORMAT % path, 'w')
 
     def write_file(self, output_string):
-        pass
+        self.file.write(output_string)
