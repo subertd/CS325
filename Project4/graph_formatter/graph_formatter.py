@@ -18,4 +18,7 @@ def parse_input(input_dictionary):
 
 
 def format_output(solution):
-    return ''
+    output_string = '%d\n' % solution['total']
+    for vertex in solution['order']:
+        output_string = "%s%d\n" % (output_string, vertex)
+    return output_string
