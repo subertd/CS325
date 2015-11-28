@@ -3,7 +3,8 @@ from abc import ABCMeta, abstractmethod
 __author__ = 'Don'
 
 
-class TSPAlgorithm(metaclass=ABCMeta):
+class TSPAlgorithm:
+    __metaclass__ = ABCMeta
 
     def __init__(self):
         pass
