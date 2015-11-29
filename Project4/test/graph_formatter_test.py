@@ -9,12 +9,12 @@ class MyTestCase(unittest.TestCase):
 
     TEST_POINTS = [(0, 0), (1, 3), (6, 0)]
 
-    def test_parseInputTakesADictionaryAndReturnsATupleOfAListAndADictionary(self):
+    def test_parseInputTakesADictionaryAndReturnsATupleOfTwoDictionaries(self):
         actual = parse_input({})
         assert isinstance(actual, tuple)
-        (expected_list, expected_dict) = actual
-        assert isinstance(expected_list, list)
-        assert isinstance(expected_dict, dict)
+        (dict1, dict2) = actual
+        assert isinstance(dict1, dict)
+        assert isinstance(dict2, dict)
 
     def test_parseInputReturnsCompleteGraphVE(self):
         num_test_points = len(self.TEST_POINTS)
@@ -58,6 +58,17 @@ class MyTestCase(unittest.TestCase):
                     expected_value = get_distance(self.TEST_POINTS[i], self.TEST_POINTS[j])
                     self.assertEqual(expected_value, actual_e[expected_key])
 
+    def test_verticesContainTheXYCoordinates(self):
+        num_test_points = len(self.TEST_POINTS)
+        input_dictionary = self.getTestInputDictionary()
+        (actual_v, actual_e) = parse_input(input_dictionary)
+
+        for key in actual_v:
+            (expected_x, expected_y) = input_dictionary[key]
+            (actual_x, actual_y) = actual_v[key]
+            self.assertEqual(expected_x, actual_x)
+            self.assertEqual(expected_y, actual_y)
+
     def test_formatOutputTakesADictionaryOfTotalIntAndOrderListIntAndReturnsAString(self):
         test_solution = {
             'total': 0,
@@ -90,6 +101,13 @@ class MyTestCase(unittest.TestCase):
 
             actual = format_output(test_solution)
             self.assertEqual(expected, actual)
+
+    def getTestInputDictionary(self):
+        num_test_points = len(self.TEST_POINTS)
+        input_dictionary = {}
+        for i in range(0, num_test_points):
+            input_dictionary[i] = self.TEST_POINTS[i]
+        return input_dictionary
 
 
 if __name__ == '__main__':
