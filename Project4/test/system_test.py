@@ -13,7 +13,7 @@ import unittest
 
 class SystemTest(unittest.TestCase):
 
-    TESTS_TO_RUN = 2
+    TESTS_TO_RUN = range(1, 4)
 
     EXAMPLE_FILES = [
         '../tsp_trivial.txt',
@@ -40,16 +40,13 @@ class SystemTest(unittest.TestCase):
         1573084 * 1.25
     ]
 
-    def test_dons_sandbox(self):
-        self.do_test_example_sets(DonsSandboxTSPAlgorithm())
-
     def test_collective_algorithm(self):
         self.do_test_example_sets(RealTSPAlgorithm())
 
     def do_test_example_sets(self, algorithm):
         runner = Runner(algorithm)
 
-        for i in range(self.TESTS_TO_RUN):
+        for i in self.TESTS_TO_RUN:
             input_file = self.EXAMPLE_FILES[i]
             output_file = "%s.tour" % input_file
             expected_total = self.EXPECTED_TOTALS[i]
@@ -84,6 +81,9 @@ class SystemTest(unittest.TestCase):
             message = "For %s, execution time of %f exceeded allotted time of %f" % (output_file[3:],
                                                                                      elapsed_time, expected_time)
             self.assertTrue(elapsed_time < expected_time, message)
+
+            print "%s passed all tests with distance %d out of possible %d" % (self.EXAMPLE_FILES[i][3:],
+                                                                               solution[0][0], expected_total)
 
     def distance(self, a,b):
         # a and b are integer pairs (each representing a point in a 2D, integer grid)

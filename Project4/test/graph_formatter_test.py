@@ -25,6 +25,7 @@ class MyTestCase(unittest.TestCase):
         (actual_v, actual_e) = parse_input(input_dictionary)
 
         exp_num_v = num_test_points
+        # an edge in each direction for each non-matching pair of vertexes
         exp_num_e = 2 * (exp_num_v * (exp_num_v - 1)) / 2
 
         act_num_v = len(actual_v)
