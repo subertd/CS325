@@ -9,12 +9,12 @@ class MyTestCase(unittest.TestCase):
 
     TEST_POINTS = [(0, 0), (1, 3), (6, 0)]
 
-    def test_parseInputTakesADictionaryAndReturnsATupleOfTwoLists(self):
+    def test_parseInputTakesADictionaryAndReturnsATupleOfAListAndADictionary(self):
         actual = parse_input({})
         assert isinstance(actual, tuple)
-        (list1, list2) = actual
-        assert isinstance(list1, list)
-        assert isinstance(list2, list)
+        (expected_list, expected_dict) = actual
+        assert isinstance(expected_list, list)
+        assert isinstance(expected_dict, dict)
 
     def test_parseInputReturnsCompleteGraphVE(self):
         num_test_points = len(self.TEST_POINTS)
@@ -54,8 +54,9 @@ class MyTestCase(unittest.TestCase):
         for i in range(0, num_test_points):
             for j in range(0, num_test_points):
                 if i != j:
-                    expected = ((i, j), get_distance(self.TEST_POINTS[i], self.TEST_POINTS[j]))
-                    self.assertTrue(expected in actual_e)
+                    expected_key = (i, j)
+                    expected_value = get_distance(self.TEST_POINTS[i], self.TEST_POINTS[j])
+                    self.assertEqual(expected_value, actual_e[expected_key])
 
     def test_formatOutputTakesADictionaryOfTotalIntAndOrderListIntAndReturnsAString(self):
         test_solution = {
