@@ -1,10 +1,11 @@
 from distance_calculator.distance_calculator import get_distance
+from distance_dictionary import DistanceDictionary
 
 
 def parse_input(input_dictionary):
 
     v = input_dictionary
-    e = {}
+    e = DistanceDictionary()
 
     for source_key, source_value in input_dictionary.iteritems():
         for target_key, target_value in input_dictionary.iteritems():

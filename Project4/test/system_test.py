@@ -13,13 +13,20 @@ import unittest
 
 class SystemTest(unittest.TestCase):
 
-    TESTS_TO_RUN = range(1, 4)
+    TESTS_TO_RUN = [4, 5, 6]
 
     EXAMPLE_FILES = [
         '../tsp_trivial.txt',
         '../tsp_example_1.txt',
         '../tsp_example_2.txt',
-        '../tsp_example_3.txt'
+        '../tsp_example_3.txt',
+        '../test-input-1.txt',
+        '../test-input-2.txt',
+        '../test-input-3.txt',
+        '../test-input-4.txt',
+        '../test-input-5.txt',
+        '../test-input-6.txt',
+        '../test-input-7.txt'
     ]
 
     EXPECTED_TIMES = [
@@ -30,6 +37,9 @@ class SystemTest(unittest.TestCase):
         180.0,
         180.0,
         180.0,
+        180.0,
+        180.0,
+        180.0,
         180.0
     ]
 
@@ -37,7 +47,8 @@ class SystemTest(unittest.TestCase):
         2 * 1.25,
         108159 * 1.25,
         2579 * 1.25,
-        1573084 * 1.25
+        1573084 * 1.25,
+        -1, -1, -1, -1, -1, -1, -1
     ]
 
     def test_collective_algorithm(self):
@@ -72,20 +83,21 @@ class SystemTest(unittest.TestCase):
             solution = self.readsolution(output_file)
             self.checksolution(cities, solution[0][0], solution[1])
 
-            # verify that the solution is reasonably optimal
-            message = "For %s, the total distance %f exceeded the allowed %f" % (output_file[3:],
-                                                                                 solution[0][0], expected_total)
-            self.assertTrue(solution[0][0] <= expected_total, message)
-
             # verify that the problem was solved within the allotted time frame
             message = "For %s, execution time of %f exceeded allotted time of %f" % (output_file[3:],
                                                                                      elapsed_time, expected_time)
             self.assertTrue(elapsed_time < expected_time, message)
 
-            print "%s passed all tests with distance %d out of possible %d" % (self.EXAMPLE_FILES[i][3:],
-                                                                               solution[0][0], expected_total)
+            # verify that the solution is reasonably optimal if an optimal value is posted
+            if expected_total >= 0:
+                message = "For %s, the total distance %f exceeded the allowed %f" % (output_file[3:],
+                                                                                     solution[0][0], expected_total)
+                self.assertTrue(solution[0][0] <= expected_total, message)
 
-    def distance(self, a,b):
+            print "%s passed with distance %d/%d and time %d/%d" % (self.EXAMPLE_FILES[i][3:], solution[0][0],
+                                                                expected_total, elapsed_time, expected_time)
+
+    def distance(self, a, b):
         # a and b are integer pairs (each representing a point in a 2D, integer grid)
         # Euclidean distance rounded to the nearest integer:
         dx = a[0]-b[0]
