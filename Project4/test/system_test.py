@@ -13,7 +13,7 @@ import unittest
 
 class SystemTest(unittest.TestCase):
 
-    TESTS_TO_RUN = [4, 5, 6]
+    TESTS_TO_RUN = [4, 5, 6, 7, 8, 9, 10]
 
     EXAMPLE_FILES = [
         '../tsp_trivial.txt',

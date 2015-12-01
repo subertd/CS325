@@ -20,7 +20,7 @@ class RealTSPAlgorithm(TSPAlgorithm):
         dist = e[(a, b)]
         dist_stop = time.clock()
         dist_duration = dist_stop - dist_start
-        if dist_duration > 0.000001:
+        if dist_duration > 0.000000001:
             self.time_spent_calculating_euclidean_distance += (dist_stop - dist_start)
         return dist
 
