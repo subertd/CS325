@@ -10,6 +10,13 @@
 #define MAX_INPUT_LENGTH 16000
 #define IMPROVEMENT_THRESHOLD 20
 
+
+#ifndef max
+// citation: forums.devshed.com/programming-42/max-function-436555.html
+#define max(a, b) ( ((a) > (b)) ? (a) : (b) )
+#endif
+
+
 struct v {
   int id[MAX_INPUT_LENGTH];
   int x[MAX_INPUT_LENGTH];
@@ -190,29 +197,32 @@ struct solution nearest_neighbor(struct v *v, struct e *e) {
 
 struct solution two_opt(struct solution s, struct v *v, struct e *e) {
 
-  //print_solution("TEST TEST TEST", &s);
-  //exit(EXIT_SUCCESS);
-
   int size = s.size;
   struct solution temp_s, better_s = s;
 
   int improvement_made = 0;
+  //int swap_threshold = max(5001 -  size, 0);
+  int swap_threshold = 30;
+  int num_swaps = 0;
 
-  while (improvement_made < IMPROVEMENT_THRESHOLD) {
-    for (int i = 0; i < size - 1; ++i) {
-      for (int j = i + 1; j < size; ++j) {
-        temp_s = two_opt_swap(better_s, v, e, i, j);
+  for (int i = 0; i < size - 1; ++i) {
+    for (int j = i + 1; j < size; ++j) {
+      temp_s = two_opt_swap(better_s, v, e, i, j);
 
-        if (temp_s.total < better_s.total) {
-          better_s = temp_s;
-          improvement_made = 0;
-        }
+      if (temp_s.total < better_s.total) {
+        better_s = temp_s;
+        ++num_swaps;
       }
 
-      ++improvement_made;
+      if (num_swaps > swap_threshold) {
+        break;
+      }
+    }
+
+    if (num_swaps > swap_threshold) {
+      break;
     }
   }
-
   return better_s;
 }
 
