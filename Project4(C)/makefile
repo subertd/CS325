@@ -10,7 +10,7 @@ PROGS = main
 all: $(PROGS)
 
 main: main.c
-	$(CC) $(CFLAGS) -o main main.c
+	$(CC) $(CFLAGS) -o main main.c -lm
 
 clean:
-	rm -f $(PROGS) *.0 *.tour
+	rm -f $(PROGS) *.0 *.tour *.pyc *.out
