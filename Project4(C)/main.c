@@ -74,7 +74,8 @@ int main(int argc, char** argv) {
   struct solution s = nearest_neighbor(&v, &e);
 
   stop_time = time(NULL);
-  printf("completed in %f seconds\n", difftime(start_time, stop_time));
+  printf("started at %ld, ended at %ld, duration: %lf seconds\n",
+    (long)start_time, (long)stop_time, difftime(stop_time, start_time));
 
   print_solution(file_name, &s);
 
