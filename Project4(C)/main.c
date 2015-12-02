@@ -41,16 +41,26 @@ struct solution two_opt_swap(struct solution solution, struct v *v, struct e *e,
 
 void print_solution(char *file_name, struct solution *s) {
 
+  //printf("entering print_solution(%s)\n", file_name);
+ 
   strcat(file_name, ".tour");
+
+  //printf("successfully concatenated file name\n");
 
   FILE *fp = fopen(file_name, "w");
 
   fprintf(fp, "%d\n", s->total);
+
+  //printf("successfully printed the total, %d\n", s->total);
+
   for (int i = 0; i < s->size; ++i) {
     fprintf(fp, "%d\n", s->order[i]);
+    //printf("successfully printed s->order[%d], %d\n", i, s->order[i]);
   }
 
   fclose(fp);
+
+  //printf("exiting print_solution()\n");
 }
 
 /*
@@ -180,6 +190,9 @@ struct solution nearest_neighbor(struct v *v, struct e *e) {
 
 struct solution two_opt(struct solution s, struct v *v, struct e *e) {
 
+  //print_solution("TEST TEST TEST", &s);
+  //exit(EXIT_SUCCESS);
+
   int size = s.size;
   struct solution temp_s, better_s = s;
 
@@ -207,22 +220,24 @@ struct solution two_opt_swap(struct solution s, struct v *v, struct e *e, int i,
 
   struct solution new_s;
   new_s.size = s.size;
-  new_s.total = 0;
   int size = s.size;
 
   for (int h = 0; h < i; ++h) {
     new_s.order[h] = s.order[h];
   }
 
-  for (int h = i; h < j; ++h) {
+  for (int h = i; h <= j; ++h) {
     new_s.order[h] = s.order[j - h + i];
   }
 
-  for (int h = j; h < size; ++h) {
+  for (int h = j + 1; h < size; ++h) {
     new_s.order[h] = s.order[h];
   }
 
   compute_total(&new_s, v, e);
+
+  //print_solution("TEST.txt", &new_s);
+  //exit(EXIT_SUCCESS);
  
   return new_s;
 }
