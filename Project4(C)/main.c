@@ -6,6 +6,7 @@
 #include <limits.h>
 #include <math.h>
 #include <sys/time.h>
+#include <time.h>
 #define MAX_INPUT_LENGTH 16000
 
 struct v {
@@ -51,6 +52,8 @@ void print_solution(char *file_name, struct solution *s) {
 
 int main(int argc, char** argv) {
 
+  time_t start_time, stop_time;
+
   char *file_name = NULL;
   char c;
 
@@ -66,13 +69,12 @@ int main(int argc, char** argv) {
   struct e e; // the set of all edges
   get_file_input(file_name, &v);
 
-  struct time_t start_time, stop_time;
-  time(&start_time);
+  start_time = time(NULL);
 
   struct solution s = nearest_neighbor(&v, &e);
 
-  time(&stop_time);
-  printf("completed in %f seconds\n", difftime(&stop_time, &start_time));
+  stop_time = time(NULL);
+  printf("completed in %f seconds\n", difftime(start_time, stop_time));
 
   print_solution(file_name, &s);
 
