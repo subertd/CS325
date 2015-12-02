@@ -75,7 +75,8 @@ void print_solution(char *file_name, struct solution *s) {
  */
 int main(int argc, char** argv) {
 
-  time_t start_time, stop_time;
+//  time_t start_time, stop_time;
+  struct timeval tval_before, tval_after, tval_result;
 
   char *file_name = NULL;
   char c;
@@ -92,14 +93,20 @@ int main(int argc, char** argv) {
   struct e e; // the set of all edges
   get_file_input(file_name, &v);
 
-  start_time = time(NULL);
+//  start_time = time(NULL);
+  gettimeofday(&tval_before, NULL);
 
   struct solution s = nearest_neighbor(&v, &e);
   s = two_opt(s, &v, &e);
 
-  stop_time = time(NULL);
-  printf("started at %ld, ended at %ld, duration: %lf seconds\n",
-    (long)start_time, (long)stop_time, difftime(stop_time, start_time));
+//  stop_time = time(NULL);
+//   printf("started at %ld, ended at %ld, duration: %lf seconds\n",
+//    (long)start_time, (long)stop_time, difftime(stop_time, start_time));
+
+  gettimeofday(&tval_after, NULL);
+  timersub(&tval_after, &tval_before, &tval_result);
+  printf("started at %ld, ended at %ld, duration: %ld.%ld seconds\n",
+    (long)tval_before.tv_sec, (long)tval_after.tv_sec, (long)tval_result.tv_sec, (long)tval_result.tv_usec);
 
   print_solution(file_name, &s);
 
