@@ -8,6 +8,7 @@
 #include <sys/time.h>
 #include <time.h>
 #define MAX_INPUT_LENGTH 16000
+#define IMPROVEMENT_THRESHOLD 20
 
 struct v {
   int id[MAX_INPUT_LENGTH];
@@ -28,13 +29,15 @@ struct solution {
 
 void get_file_input(char *input_file_name, struct v *v);
 int get_distance(struct v *v, struct e *e, int uid, int vid);
+void compute_total(struct solution *s, struct v *v, struct e *e);
+
 
 struct solution nearest_neighbor(struct v *v, struct e *e);
 struct solution two_opt(struct solution solution, struct v *v, struct e *e);
-struct solution two_opt_swap(struct solution solution, struct v *v, struct e *e);
+struct solution two_opt_swap(struct solution solution, struct v *v, struct e *e, int i, int j);
 
-void set_edge(struct e *e, int u, int v, int distance);
-int get_edge(struct e *e, int u, int v);
+//void set_edge(struct e *e, int u, int v, int distance);
+//int get_edge(struct e *e, int u, int v);
 
 void print_solution(char *file_name, struct solution *s) {
 
@@ -50,6 +53,9 @@ void print_solution(char *file_name, struct solution *s) {
   fclose(fp);
 }
 
+/*
+ * The insertion point
+ */
 int main(int argc, char** argv) {
 
   time_t start_time, stop_time;
@@ -72,6 +78,7 @@ int main(int argc, char** argv) {
   start_time = time(NULL);
 
   struct solution s = nearest_neighbor(&v, &e);
+  s = two_opt(s, &v, &e);
 
   stop_time = time(NULL);
   printf("started at %ld, ended at %ld, duration: %lf seconds\n",
@@ -171,12 +178,68 @@ struct solution nearest_neighbor(struct v *v, struct e *e) {
   return s;
 }
 
-struct solution two_opt(struct solution solution, struct v *v, struct e *e) {
+struct solution two_opt(struct solution s, struct v *v, struct e *e) {
 
+  int size = s.size;
+  struct solution temp_s, better_s = s;
+
+  int improvement_made = 0;
+
+  while (improvement_made < IMPROVEMENT_THRESHOLD) {
+    for (int i = 0; i < size - 1; ++i) {
+      for (int j = i + 1; j < size; ++j) {
+        temp_s = two_opt_swap(better_s, v, e, i, j);
+
+        if (temp_s.total < better_s.total) {
+          better_s = temp_s;
+          improvement_made = 0;
+        }
+      }
+
+      ++improvement_made;
+    }
+  }
+
+  return better_s;
 }
 
-struct solution two_opt_swap(struct solution solution, struct v *v, struct e *e) {
+struct solution two_opt_swap(struct solution s, struct v *v, struct e *e, int i, int j) {
 
+  struct solution new_s;
+  new_s.size = s.size;
+  new_s.total = 0;
+  int size = s.size;
+
+  for (int h = 0; h < i; ++h) {
+    new_s.order[h] = s.order[h];
+  }
+
+  for (int h = i; h < j; ++h) {
+    new_s.order[h] = s.order[j - h + i];
+  }
+
+  for (int h = j; h < size; ++h) {
+    new_s.order[h] = s.order[h];
+  }
+
+  compute_total(&new_s, v, e);
+ 
+  return new_s;
+}
+
+void compute_total(struct solution *s, struct v *v, struct e *e) {
+  
+  int size = s->size;
+  int total = 0;
+  int cur, next;
+
+  for (int i = 0; i < size; ++i) {
+    cur = s->order[i];
+    next = s->order[(i + 1) % size];
+    total += get_distance(v, e, cur, next);
+  }
+
+  s->total = total;
 }
 
 void set_edge(struct e *e, int u, int v, int distance) {
