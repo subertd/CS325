@@ -17,10 +17,6 @@ struct v {
   int size;
 };
 
-struct e {
-
-};
-
 struct solution {
   int total;
   int order[MAX_INPUT_LENGTH];
@@ -28,27 +24,13 @@ struct solution {
 };
 
 void get_file_input(char *input_file_name, struct v *v);
-int get_distance(struct v *v, struct e *e, int uid, int vid);
-void compute_total(struct solution *s, struct v *v, struct e *e);
+void print_solution(char *file_name, struct solution *s);
+int get_distance(struct v *v, int uid, int vid);
+void compute_total(struct solution *s, struct v *v);
 
-struct solution nearest_neighbor(struct v *v, struct e *e);
-struct solution two_opt(struct solution solution, struct v *v, struct e *e);
-struct solution two_opt_swap(struct solution solution, struct v *v, struct e *e, int i, int j);
-
-void print_solution(char *file_name, struct solution *s) {
-
-  strcat(file_name, ".tour");
-
-  FILE *fp = fopen(file_name, "w");
-
-  fprintf(fp, "%d\n", s->total);
-
-  for (int i = 0; i < s->size; ++i) {
-    fprintf(fp, "%d\n", s->order[i]);
-  }
-
-  fclose(fp);
-}
+struct solution nearest_neighbor(struct v *v);
+struct solution two_opt(struct solution solution, struct v *v);
+struct solution two_opt_swap(struct solution solution, struct v *v, int i, int j);
 
 /*
  * The insertion point
@@ -69,13 +51,12 @@ int main(int argc, char** argv) {
   } 
 
   struct v v; // the set of all vertices
-  struct e e; // the set of all edges
   get_file_input(file_name, &v);
 
   gettimeofday(&tval_before, NULL);
 
-  struct solution s = nearest_neighbor(&v, &e);
-  s = two_opt(s, &v, &e);
+  struct solution s = nearest_neighbor(&v);
+  s = two_opt(s, &v);
 
   gettimeofday(&tval_after, NULL);
   timersub(&tval_after, &tval_before, &tval_result);
@@ -113,7 +94,22 @@ void get_file_input(char *input_file_name, struct v *v) {
     free(line);
 }
 
-int get_distance(struct v *v, struct e *e, int u, int t) {
+void print_solution(char *file_name, struct solution *s) {
+
+  strcat(file_name, ".tour");
+
+  FILE *fp = fopen(file_name, "w");
+
+  fprintf(fp, "%d\n", s->total);
+
+  for (int i = 0; i < s->size; ++i) {
+    fprintf(fp, "%d\n", s->order[i]);
+  }
+
+  fclose(fp);
+}
+
+int get_distance(struct v *v, int u, int t) {
   
   int ux = v->x[u];
   int uy = v->y[u];
@@ -123,7 +119,7 @@ int get_distance(struct v *v, struct e *e, int u, int t) {
   return (int)round(sqrt(pow(abs(ux - tx), 2) + pow(abs(uy - ty), 2)));
 }
 
-struct solution nearest_neighbor(struct v *v, struct e *e) {
+struct solution nearest_neighbor(struct v *v) {
 
   struct solution s; // the solution
   s.total = 0; // the total distance in the solution
@@ -154,7 +150,7 @@ struct solution nearest_neighbor(struct v *v, struct e *e) {
       }
 
       // get the distance between the current vertex and this neighbor
-      int cur_dist = get_distance(v, e, cur_vertex, unvisited[j]);
+      int cur_dist = get_distance(v, cur_vertex, unvisited[j]);
 
       // if this is the nearest neighbor yet found, update
       if (cur_dist < nearest_so_far_dist) {
@@ -171,12 +167,12 @@ struct solution nearest_neighbor(struct v *v, struct e *e) {
                                     // nearest neighbor to total for the solution
   }
 
-  s.total += get_distance(v, e, cur_vertex, s.order[0]); // add the distance between the last and first vertices
+  s.total += get_distance(v, cur_vertex, s.order[0]); // add the distance between the last and first vertices
 
   return s;
 }
 
-struct solution two_opt(struct solution s, struct v *v, struct e *e) {
+struct solution two_opt(struct solution s, struct v *v) {
 
   int size = s.size;
   struct solution temp_s, better_s = s;
@@ -187,7 +183,7 @@ struct solution two_opt(struct solution s, struct v *v, struct e *e) {
 
   for (int i = 0; i < size - 1; ++i) {
     for (int j = i + 1; j < size; ++j) {
-      temp_s = two_opt_swap(better_s, v, e, i, j);
+      temp_s = two_opt_swap(better_s, v, i, j);
 
       if (temp_s.total < better_s.total) {
         better_s = temp_s;
@@ -206,7 +202,7 @@ struct solution two_opt(struct solution s, struct v *v, struct e *e) {
   return better_s;
 }
 
-struct solution two_opt_swap(struct solution s, struct v *v, struct e *e, int i, int j) {
+struct solution two_opt_swap(struct solution s, struct v *v, int i, int j) {
 
   struct solution new_s;
   new_s.size = s.size;
@@ -224,12 +220,12 @@ struct solution two_opt_swap(struct solution s, struct v *v, struct e *e, int i,
     new_s.order[h] = s.order[h];
   }
 
-  compute_total(&new_s, v, e);
+  compute_total(&new_s, v);
 
   return new_s;
 }
 
-void compute_total(struct solution *s, struct v *v, struct e *e) {
+void compute_total(struct solution *s, struct v *v) {
   
   int size = s->size;
   int total = 0;
@@ -238,7 +234,7 @@ void compute_total(struct solution *s, struct v *v, struct e *e) {
   for (int i = 0; i < size; ++i) {
     cur = s->order[i];
     next = s->order[(i + 1) % size];
-    total += get_distance(v, e, cur, next);
+    total += get_distance(v, cur, next);
   }
 
   s->total = total;
