@@ -176,26 +176,34 @@ struct solution two_opt(struct solution s, struct v *v) {
 
   int size = s.size;
   struct solution temp_s, better_s = s;
-  int swap_limit =  (int)((0 - .00000045) * pow(size - 3700, 3)) + 1030;
+  int swap_limit =
+      (int)((0 - .0000000000000000000000000000000000000004) * pow(size - 3400, 13)) + 220;
+  // if (size == 2000) swap_limit = 250;
   printf ("%d improvements attempted\n", swap_limit);
   int num_swaps = 0;
+  int making_progress;
 
-  for (int i = 0; i < size - 1; ++i) {
-    for (int j = i + 1; j < size; ++j) {
-      temp_s = two_opt_swap(better_s, v, i, j);
+  while (num_swaps < swap_limit && making_progress) {
+    making_progress = 0;
 
-      if (temp_s.total < better_s.total) {
-        better_s = temp_s;
-        ++num_swaps;
+    for (int i = 0; i < size - 1; ++i) {
+      for (int j = i + 1; j < size; ++j) {
+        temp_s = two_opt_swap(better_s, v, i, j);
+
+        if (temp_s.total < better_s.total) {
+          better_s = temp_s;
+          ++num_swaps;
+          making_progress = 1;
+        }
+
+        if (num_swaps > swap_limit) {
+          break;
+        }
       }
 
       if (num_swaps > swap_limit) {
         break;
       }
-    }
-
-    if (num_swaps > swap_limit) {
-      break;
     }
   }
   return better_s;
