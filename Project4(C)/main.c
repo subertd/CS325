@@ -176,8 +176,7 @@ struct solution two_opt(struct solution s, struct v *v) {
 
   int size = s.size;
   struct solution temp_s, better_s = s;
-
-  int swap_limit =  (int)((0 - .000000025) * pow(size, 3)) + 3155;
+  int swap_limit =  (int)((0 - .00000045) * pow(size - 3700, 3)) + 1030;
   printf ("%d improvements attempted\n", swap_limit);
   int num_swaps = 0;
 
