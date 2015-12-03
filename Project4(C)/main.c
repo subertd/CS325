@@ -10,13 +10,6 @@
 #define MAX_INPUT_LENGTH 16000
 #define IMPROVEMENT_THRESHOLD 20
 
-
-#ifndef max
-// citation: forums.devshed.com/programming-42/max-function-436555.html
-#define max(a, b) ( ((a) > (b)) ? (a) : (b) )
-#endif
-
-
 struct v {
   int id[MAX_INPUT_LENGTH];
   int x[MAX_INPUT_LENGTH];
@@ -38,36 +31,23 @@ void get_file_input(char *input_file_name, struct v *v);
 int get_distance(struct v *v, struct e *e, int uid, int vid);
 void compute_total(struct solution *s, struct v *v, struct e *e);
 
-
 struct solution nearest_neighbor(struct v *v, struct e *e);
 struct solution two_opt(struct solution solution, struct v *v, struct e *e);
 struct solution two_opt_swap(struct solution solution, struct v *v, struct e *e, int i, int j);
 
-//void set_edge(struct e *e, int u, int v, int distance);
-//int get_edge(struct e *e, int u, int v);
-
 void print_solution(char *file_name, struct solution *s) {
 
-  //printf("entering print_solution(%s)\n", file_name);
- 
   strcat(file_name, ".tour");
-
-  //printf("successfully concatenated file name\n");
 
   FILE *fp = fopen(file_name, "w");
 
   fprintf(fp, "%d\n", s->total);
 
-  //printf("successfully printed the total, %d\n", s->total);
-
   for (int i = 0; i < s->size; ++i) {
     fprintf(fp, "%d\n", s->order[i]);
-    //printf("successfully printed s->order[%d], %d\n", i, s->order[i]);
   }
 
   fclose(fp);
-
-  //printf("exiting print_solution()\n");
 }
 
 /*
@@ -75,7 +55,6 @@ void print_solution(char *file_name, struct solution *s) {
  */
 int main(int argc, char** argv) {
 
-//  time_t start_time, stop_time;
   struct timeval tval_before, tval_after, tval_result;
 
   char *file_name = NULL;
@@ -93,20 +72,16 @@ int main(int argc, char** argv) {
   struct e e; // the set of all edges
   get_file_input(file_name, &v);
 
-//  start_time = time(NULL);
   gettimeofday(&tval_before, NULL);
 
   struct solution s = nearest_neighbor(&v, &e);
   s = two_opt(s, &v, &e);
 
-//  stop_time = time(NULL);
-//   printf("started at %ld, ended at %ld, duration: %lf seconds\n",
-//    (long)start_time, (long)stop_time, difftime(stop_time, start_time));
-
   gettimeofday(&tval_after, NULL);
   timersub(&tval_after, &tval_before, &tval_result);
   printf("started at %ld, ended at %ld, duration: %ld.%ld seconds\n",
-    (long)tval_before.tv_sec, (long)tval_after.tv_sec, (long)tval_result.tv_sec, (long)tval_result.tv_usec);
+      (long)tval_before.tv_sec, (long)tval_after.tv_sec,
+      (long)tval_result.tv_sec, (long)tval_result.tv_usec);
 
   print_solution(file_name, &s);
 
@@ -126,7 +101,6 @@ void get_file_input(char *input_file_name, struct v *v) {
 
   int id, x, y, i = 0;
   while(fscanf(fp, "%d %d %d\n", &id, &x, &y) != EOF) {
-    // printf("Vertex %d, is at (%d, %d)\n", id, x, y);
     v->id[i] = id;
     v->x[i] = x;
     v->y[i] = y;
@@ -207,9 +181,8 @@ struct solution two_opt(struct solution s, struct v *v, struct e *e) {
   int size = s.size;
   struct solution temp_s, better_s = s;
 
-  int improvement_made = 0;
-  //int swap_threshold = max(5001 -  size, 0);
-  int swap_threshold = 30;
+  int swap_limit =  (int)((0 - .000000025) * pow(size, 3)) + 3155;
+  printf ("%d improvements attempted\n", swap_limit);
   int num_swaps = 0;
 
   for (int i = 0; i < size - 1; ++i) {
@@ -221,12 +194,12 @@ struct solution two_opt(struct solution s, struct v *v, struct e *e) {
         ++num_swaps;
       }
 
-      if (num_swaps > swap_threshold) {
+      if (num_swaps > swap_limit) {
         break;
       }
     }
 
-    if (num_swaps > swap_threshold) {
+    if (num_swaps > swap_limit) {
       break;
     }
   }
@@ -253,9 +226,6 @@ struct solution two_opt_swap(struct solution s, struct v *v, struct e *e, int i,
 
   compute_total(&new_s, v, e);
 
-  //print_solution("TEST.txt", &new_s);
-  //exit(EXIT_SUCCESS);
- 
   return new_s;
 }
 
@@ -272,9 +242,4 @@ void compute_total(struct solution *s, struct v *v, struct e *e) {
   }
 
   s->total = total;
-}
-
-void set_edge(struct e *e, int u, int v, int distance) {
-
-  
 }
