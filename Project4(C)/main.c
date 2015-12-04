@@ -181,7 +181,7 @@ struct solution two_opt(struct solution s, struct v *v) {
   // if (size == 2000) swap_limit = 250;
   printf ("%d improvements attempted\n", swap_limit);
   int num_swaps = 0;
-  int making_progress;
+  int making_progress = 1;
 
   while (num_swaps < swap_limit && making_progress) {
     making_progress = 0;
