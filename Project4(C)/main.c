@@ -8,7 +8,6 @@
 #include <sys/time.h>
 #include <time.h>
 #define MAX_INPUT_LENGTH 16000
-#define IMPROVEMENT_THRESHOLD 20
 
 struct v {
   int id[MAX_INPUT_LENGTH];
@@ -69,6 +68,12 @@ int main(int argc, char** argv) {
   return EXIT_SUCCESS;
 }
 
+/**
+ * Gets the problem set from the specified file
+ *
+ * @param char *input_file_name, the name of the file containing the problem set
+ * @param struct v *v, a buffer for the problem set
+ */
 void get_file_input(char *input_file_name, struct v *v) {
 
   FILE *fp;
@@ -94,6 +99,12 @@ void get_file_input(char *input_file_name, struct v *v) {
     free(line);
 }
 
+/**
+ * Outputs the solution to the specified file
+ *
+ * @param char *file_name, the name of the file to write to
+ * @param struct solution *s, the solution to write
+ */
 void print_solution(char *file_name, struct solution *s) {
 
   strcat(file_name, ".tour");
@@ -109,6 +120,13 @@ void print_solution(char *file_name, struct solution *s) {
   fclose(fp);
 }
 
+/**
+ * Gets the distance between two given vertices
+ *
+ * @param struct v *v, the set of all vertices
+ * @param int u, the index in v of a vertex
+ * @param int t, the index in v of a vertex
+ */
 int get_distance(struct v *v, int u, int t) {
   
   int ux = v->x[u];
@@ -119,6 +137,13 @@ int get_distance(struct v *v, int u, int t) {
   return (int)round(sqrt(pow(abs(ux - tx), 2) + pow(abs(uy - ty), 2)));
 }
 
+/**
+ * Gets a feesable solution for a given problem set
+ * using the nearest neighbor algorithm
+ *
+ * @param struct v *v, the problem set
+ * @returns struct solution, the feesable solution
+ */
 struct solution nearest_neighbor(struct v *v) {
 
   struct solution s; // the solution
@@ -172,43 +197,64 @@ struct solution nearest_neighbor(struct v *v) {
   return s;
 }
 
+/**
+ * Performs local heuristic optomization, using 2-Opt
+ *
+ * @param struct solution s, a feesable solution
+ * @param struct v *v, the set of all vertices
+ * @returns struct solution, the improved solution
+ */
 struct solution two_opt(struct solution s, struct v *v) {
 
   int size = s.size;
   struct solution temp_s, better_s = s;
   int swap_limit =
       (int)((0 - .0000000000000000000000000000000000000004) * pow(size - 3400, 13)) + 220;
-  // if (size == 2000) swap_limit = 250;
   printf ("%d improvements attempted\n", swap_limit);
   int num_swaps = 0;
   int making_progress = 1;
 
+  // While still making progress, and swap limit not reaches
   while (num_swaps < swap_limit && making_progress) {
     making_progress = 0;
 
+    // For each range (i, j) in solution
     for (int i = 0; i < size - 1; ++i) {
       for (int j = i + 1; j < size; ++j) {
         temp_s = two_opt_swap(better_s, v, i, j);
 
+        // if reversing that range improves the total distance, do it
         if (temp_s.total < better_s.total) {
           better_s = temp_s;
           ++num_swaps;
           making_progress = 1;
         }
 
+        // If enough improvements have been made, stop
         if (num_swaps > swap_limit) {
           break;
         }
       }
 
+      // If enough improvements have been made, stop
       if (num_swaps > swap_limit) {
         break;
       }
     }
   }
+
   return better_s;
 }
 
+/**
+ * Returns a solution where the order of vertices i through j are reversed
+ *
+ * @param struct solution s, an ordering of vertices
+ * @param struct v *v, the set of all vertices
+ * @param int i, the least index in the range
+ * @param int j, the max index in the range
+ * @returns struct solution, the new solution
+ */
 struct solution two_opt_swap(struct solution s, struct v *v, int i, int j) {
 
   struct solution new_s;
@@ -232,6 +278,13 @@ struct solution two_opt_swap(struct solution s, struct v *v, int i, int j) {
   return new_s;
 }
 
+/**
+ * computes the total distance of a solution and sets the
+ * property 'total' of the solution to that value
+ *
+ * @param struct solution *s, the solution whose distance is to be computed
+ * @param struct v *v, the set of all vertices
+ */
 void compute_total(struct solution *s, struct v *v) {
   
   int size = s->size;
